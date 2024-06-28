@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/test-frontend/static/css/main.c228a1e6.css",
+    "main.js": "/test-frontend/static/js/main.1968af3d.js",
+    "static/js/208.a2d2f7d7.chunk.js": "/test-frontend/static/js/208.a2d2f7d7.chunk.js",
+    "static/js/293.f2dbe920.chunk.js": "/test-frontend/static/js/293.f2dbe920.chunk.js",
+    "static/js/917.03860714.chunk.js": "/test-frontend/static/js/917.03860714.chunk.js",
+    "static/js/516.ca5235be.chunk.js": "/test-frontend/static/js/516.ca5235be.chunk.js",
+    "static/js/519.54f097b2.chunk.js": "/test-frontend/static/js/519.54f097b2.chunk.js",
+    "static/js/946.47a6c268.chunk.js": "/test-frontend/static/js/946.47a6c268.chunk.js",
+    "static/js/160.2cf7612e.chunk.js": "/test-frontend/static/js/160.2cf7612e.chunk.js",
+    "static/js/23.94ff5187.chunk.js": "/test-frontend/static/js/23.94ff5187.chunk.js",
+    "static/js/453.8ab44547.chunk.js": "/test-frontend/static/js/453.8ab44547.chunk.js",
+    "index.html": "/test-frontend/index.html",
+    "main.c228a1e6.css.map": "/test-frontend/static/css/main.c228a1e6.css.map",
+    "main.1968af3d.js.map": "/test-frontend/static/js/main.1968af3d.js.map",
+    "208.a2d2f7d7.chunk.js.map": "/test-frontend/static/js/208.a2d2f7d7.chunk.js.map",
+    "293.f2dbe920.chunk.js.map": "/test-frontend/static/js/293.f2dbe920.chunk.js.map",
+    "917.03860714.chunk.js.map": "/test-frontend/static/js/917.03860714.chunk.js.map",
+    "516.ca5235be.chunk.js.map": "/test-frontend/static/js/516.ca5235be.chunk.js.map",
+    "519.54f097b2.chunk.js.map": "/test-frontend/static/js/519.54f097b2.chunk.js.map",
+    "946.47a6c268.chunk.js.map": "/test-frontend/static/js/946.47a6c268.chunk.js.map",
+    "160.2cf7612e.chunk.js.map": "/test-frontend/static/js/160.2cf7612e.chunk.js.map",
+    "23.94ff5187.chunk.js.map": "/test-frontend/static/js/23.94ff5187.chunk.js.map",
+    "453.8ab44547.chunk.js.map": "/test-frontend/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c228a1e6.css",
+    "static/js/main.1968af3d.js"
+  ]
+}
