@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+.hexagon-svg {
+  width: 100vw; /* Smaller responsive width */
+  height: 100vw; /* Maintain aspect ratio */
+  max-width: 100px; /* Smaller max size for larger screens */
+  max-height: 100px; /* Smaller max size for larger screens */
+}
+
+.black-ops-one-regular {
+  font-family: 'Black Ops One', system-ui;
+  font-weight: 800;
+  font-style: normal;
+}
+.DIAMNOND {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  position: relative;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  transition: background-color 0.3s ease;
+}
+
+.DIAMNOND:hover {
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  position: relative;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  transition: background-color 0.3s ease;
+}
