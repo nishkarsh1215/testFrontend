@@ -1,0 +1,24 @@
+html,
+body {
+  background: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.container,
+.spacer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 8rem;
+  visibility: hidden;
+}
+
+.spacer {
+  visibility: visible;
+}

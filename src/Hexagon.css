@@ -1,4 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+/* Add this CSS to your global styles or the component's CSS file */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.hexagon-svg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
 .hexagon-svg {
   width: 100vw; /* Smaller responsive width */
   height: 100vw; /* Maintain aspect ratio */

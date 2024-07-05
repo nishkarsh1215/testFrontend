@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
+import { useNavigate } from 'react-router-dom'
 
 const Hexagon = () => {
   const svgRef = useRef(null)
   const dimamondRef = useRef(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const hexagons = svgRef.current.querySelectorAll('.hexagon')
@@ -56,7 +58,11 @@ const Hexagon = () => {
     })
   }
 
-  const radii = [40, 80, 120, 150, 200, 300, 350] // radii of concentric hexagons
+  const ImageToHome = () => {
+    navigate('/home')
+  }
+
+  const radii = [60, 80, 120, 150, 200, 300, 350] // radii of concentric hexagons
   const strokeWidths = [3, 6, 9, 12, 15, 18, 21] // different stroke widths for each hexagon
 
   return (
@@ -81,15 +87,15 @@ const Hexagon = () => {
         ))}
         {/* Image centered in the SVG */}
         <image
-          xlinkHref="/SANCTITY-LOGO.png"
-          x="180"
-          y="165"
-          width="37.5"
-          height="75"
+          xlinkHref="https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/SANCTITY-LOGO.png"
+          x="165"
+          y="130"
+          width="75"
+          height="150"
           style={{ filter: 'invert(100%)' }}
         />
         <image
-          xlinkHref="/DIAMOND.svg"
+          xlinkHref="https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/DIAMOND.svg"
           ref={dimamondRef}
           className="DIAMOND"
           x="120"
@@ -98,6 +104,7 @@ const Hexagon = () => {
           height="300"
           onMouseOver={ImageChangeOnHover}
           onMouseLeave={ImageChangeOutHover}
+          onClick={ImageToHome}
         />
         <text
           x="197.5"
