@@ -100,20 +100,6 @@ function Advanced() {
   }, [])
 
   // Handle user authentication state
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser)
-        toast.success(`Welcome back, ${currentUser.displayName}`, {
-          position: 'top-center',
-        })
-        navigate('/card') // Navigate to /card after successful sign-in
-      } else {
-        setUser(null)
-      }
-    })
-    return () => unsubscribe()
-  }, [navigate])
 
   const childRefs = useMemo(
     () =>
@@ -227,12 +213,22 @@ function Advanced() {
           {user ? (
             <div>
               <div className="final-text">
-                You have successfully casted your vote
+                Do you want to see the views of others?
               </div>
-              <button onClick={() => auth.signOut()}>Sign Out</button>
+              <button
+                className="centered-button"
+                onClick={() => navigate('/card')}
+              >
+                Let's Go
+              </button>
             </div>
           ) : (
-            <SignInwithGoogle />
+            <div>
+              <div className="final-text">
+                Subscribe to Sanctity's Newsletter
+              </div>
+              <SignInwithGoogle />
+            </div>
           )}
         </div>
       )}

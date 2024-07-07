@@ -43,7 +43,7 @@ function MyThree({ swipeCount }) {
         const model = gltf.scene
         modelRef.current = model // Store the model in the ref
         // Optional: Adjust scale and position of the model
-        model.scale.set(0.5, 0.5, 0.5) // Adjust scale if needed
+        model.scale.set(0.6, 0.6, 0.6) // Adjust scale if needed
         model.position.set(0, -3, 0) // Adjust position if needed
         newScene.add(model)
 
