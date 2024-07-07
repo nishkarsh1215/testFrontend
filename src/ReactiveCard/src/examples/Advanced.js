@@ -78,6 +78,21 @@ function Advanced() {
     }
   }
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser)
+        toast.success(`Welcome back, ${currentUser.displayName}`, {
+          position: 'top-center',
+        })
+        navigate('/card')
+      } else {
+        setUser(null)
+      }
+    })
+    return () => unsubscribe()
+  }, [])
+
   const updateQuestionsData = async (updatedData) => {
     try {
       await dbms.ref('questions').set(questionsData)
@@ -98,6 +113,21 @@ function Advanced() {
         console.error('Error fetching questions data:', error)
       })
   }, [])
+
+  // Handle user authentication state
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser)
+        toast.success(`Welcome back, ${currentUser.displayName}`, {
+          position: 'top-center',
+        })
+      } else {
+        setUser(null)
+      }
+    })
+    return () => unsubscribe()
+  }, [navigate])
 
   // Handle user authentication state
 
