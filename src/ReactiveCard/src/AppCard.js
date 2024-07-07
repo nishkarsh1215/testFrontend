@@ -3,6 +3,7 @@ import './App.css'
 import Switch from 'react-ios-switch'
 
 import Advanced from './examples/Advanced'
+import AdvancedResults from './examples/AdvancedResults'
 import Simple from './examples/Simple'
 
 function AppCard() {
@@ -10,7 +11,7 @@ function AppCard() {
 
   return (
     <div className="app">
-      <Advanced />
+      <AdvancedResults />
     </div>
   )
 }

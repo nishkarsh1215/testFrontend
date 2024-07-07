@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../../../LoginFirebase'
 import { dbms } from '../../../LoginFirebase'
+import { useNavigate } from 'react-router-dom'
 
 // Array of questions with corresponding images
 const dbs = [
@@ -64,6 +65,7 @@ function Advanced() {
   const [signShow, setSignShow] = useState(false)
   const [questionsData, setQuestionsData] = useState([])
   const [start, setStart] = useState(false)
+  const navigate = useNavigate() // Initialize the navigate function
 
   ///////////////////////////////////////////////////////
   const fetchQuestionsData = async () => {
@@ -86,15 +88,11 @@ function Advanced() {
     }
   }
 
-  // updateQuestionsData()
-
   useEffect(() => {
     fetchQuestionsData()
       .then((questionsData) => {
-        // console.log('Fetched questions data:', questionsData)
         setQuestionsData(questionsData)
         setStart(true)
-        // Process data as needed
       })
       .catch((error) => {
         console.error('Error fetching questions data:', error)
@@ -109,14 +107,13 @@ function Advanced() {
         toast.success(`Welcome back, ${currentUser.displayName}`, {
           position: 'top-center',
         })
-
-        // updateQuestionsData(questionsData)
+        navigate('/card') // Navigate to /card after successful sign-in
       } else {
         setUser(null)
       }
     })
     return () => unsubscribe()
-  }, [])
+  }, [navigate])
 
   const childRefs = useMemo(
     () =>
@@ -135,7 +132,6 @@ function Advanced() {
   const canSwipe = currentIndex >= 0
 
   const swiped = (direction, nameToDelete, index) => {
-    // console.log(`Card swiped ${direction}: ${nameToDelete}: ${index}`)
     let copyObj = [...questionsData]
     if (direction == 'left') {
       let extraLeft = copyObj[index].swipes.left
@@ -216,8 +212,6 @@ function Advanced() {
                 <div className="newText">
                   <p>←Swipe→</p>
                 </div>
-                {/* <hr className="horizontalLine" /> */}
-                {/* <div className="verticalLine"></div> */}
                 <div className="answerOptions">
                   <div className="noOption">No</div>
                   <div className="yesOption">Yes</div>
@@ -232,7 +226,6 @@ function Advanced() {
         <div>
           {user ? (
             <div>
-              {/* <p>Welcome, {user.displayName}</p> */}
               <div className="final-text">
                 You have successfully casted your vote
               </div>
