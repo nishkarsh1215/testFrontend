@@ -62,8 +62,8 @@ const Hexagon = () => {
     navigate('/home')
   }
 
-  const radii = [60, 80, 120, 150, 200, 300, 350] // radii of concentric hexagons
-  const strokeWidths = [3, 6, 9, 12, 15, 18, 21] // different stroke widths for each hexagon
+  const radii = [60, 80, 120, 150, 200, 300] // radii of concentric hexagons
+  const strokeWidths = [3, 6, 9, 12, 15, 18] // different stroke widths for each hexagon
 
   return (
     <div

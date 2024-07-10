@@ -5,7 +5,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../../../LoginFirebase'
 import { dbms } from '../../../LoginFirebase'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 // Array of questions with corresponding images
 const dbs = [
@@ -65,6 +65,9 @@ function Advanced() {
   const [signShow, setSignShow] = useState(false)
   const [questionsData, setQuestionsData] = useState([])
   const [start, setStart] = useState(false)
+  const [responses, setResponses] = useState([])
+  const [indicate, setIndicate] = useState(false)
+  const location = useLocation()
   const navigate = useNavigate() // Initialize the navigate function
 
   ///////////////////////////////////////////////////////
@@ -78,24 +81,9 @@ function Advanced() {
     }
   }
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser)
-        toast.success(`Welcome back, ${currentUser.displayName}`, {
-          position: 'top-center',
-        })
-        navigate('/card')
-      } else {
-        setUser(null)
-      }
-    })
-    return () => unsubscribe()
-  }, [])
-
   const updateQuestionsData = async (updatedData) => {
     try {
-      await dbms.ref('questions').set(questionsData)
+      await dbms.ref('questions').set(updatedData)
       console.log('Data updated successfully!')
     } catch (error) {
       console.error('Error updating data:', error.message)
@@ -116,18 +104,50 @@ function Advanced() {
 
   // Handle user authentication state
   useEffect(() => {
+    if (location.pathname === '/home' && indicate) {
+      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        if (currentUser) {
+          let dummyArr = [...responses]
+          console.log('I am a current user')
+          console.log(dummyArr)
+          console.log(questionsData)
+          let copyObj = [...questionsData]
+          let i = 0
+          for (let element of copyObj) {
+            element.responses.push({
+              [currentUser.displayName]: responses[i],
+            }) // Example of adding {"nish": 0} to responses array
+            ++i
+          }
+          console.log('Here are the updated ones')
+
+          updateQuestionsData(copyObj)
+          setUser(currentUser)
+          toast.success(`Welcome back, ${currentUser.displayName}`, {
+            position: 'top-center',
+          })
+        } else {
+          setUser(null)
+        }
+      })
+      return () => unsubscribe()
+    }
+  }, [location.pathname, navigate, responses])
+
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser)
         toast.success(`Welcome back, ${currentUser.displayName}`, {
           position: 'top-center',
         })
+        navigate('/card')
       } else {
         setUser(null)
       }
     })
     return () => unsubscribe()
-  }, [navigate])
+  }, [])
 
   // Handle user authentication state
 
@@ -149,31 +169,47 @@ function Advanced() {
 
   const swiped = (direction, nameToDelete, index) => {
     let copyObj = [...questionsData]
+    let newNumber = 0
     if (direction == 'left') {
       let extraLeft = copyObj[index].swipes.left
       ++extraLeft
       copyObj[index].swipes.left = extraLeft
       setQuestionsData(copyObj)
+      newNumber = 0
     } else if (direction == 'right') {
       let extraRight = copyObj[index].swipes.right
       ++extraRight
       copyObj[index].swipes.right = extraRight
       setQuestionsData(copyObj)
+      newNumber = 1
     } else if (direction == 'up') {
       let extraUp = copyObj[index].swipes.up
       ++extraUp
       copyObj[index].swipes.up = extraUp
       setQuestionsData(copyObj)
+      newNumber = 2
     }
 
-    updateQuestionsData()
+    updateQuestionsData(copyObj)
+    ////////////////////////////////////////////
+    setResponses((prevResponses) => {
+      const updatedResponses = [...prevResponses, newNumber]
+      console.log('Updated responses:', updatedResponses)
+      return updatedResponses
+    })
+    /////////////////////////////////
     setLastDirection(direction)
     updateCurrentIndex(index - 1)
     if (index - 1 < 0) {
       setSignShow(true)
+      setIndicate(true)
       console.log('All cards are swiped')
     }
   }
+
+  useEffect(() => {
+    // console.log('Responses updated:', responses)
+  }, [responses])
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`, currentIndexRef.current)

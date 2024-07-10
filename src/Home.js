@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
 import { useNavigate } from 'react-router-dom'
 import './App.css'
-
+import { auth } from './LoginFirebase'
 import { gsap } from 'gsap'
 import MyThree from './MyThree'
 import Advanced from './ReactiveCard/src/examples/Advanced'
-
+import { onAuthStateChanged } from 'firebase/auth'
+import AdvancedResults from './ReactiveCard/src/examples/AdvancedResults'
 const Home = () => {
   const navigate = useNavigate() // Initialize useNavigate
   const [upperText, setUpperText] = useState('')
@@ -24,6 +25,13 @@ const Home = () => {
   const [extraUpperTextFontSize, setExtraUpperTextFontSize] = useState('23px')
   const [middleTextFontSize, setMiddleTextFontSize] = useState('23px')
   const [lowerTextFontSize, setLowerTextFontSize] = useState('23px')
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user)
+    })
+  }, [])
   const upperTextArray = [
     'We, at Sanctity AI',
     'in which',

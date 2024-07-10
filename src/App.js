@@ -10,6 +10,7 @@ import Home from './Home'
 import MyThree from './MyThree'
 import Card from './Card'
 import AppCard from './ReactiveCard/src/AppCard'
+import ResponsiveAppBar from './ResponsiveAppBar'
 
 // import MyComponent from './MyComponent'
 
@@ -17,6 +18,7 @@ const App = () => {
   console.log('App Loaded')
   return (
     <Router>
+      <ResponsiveAppBar />
       <Routes>
         <Route path="/hexagon" element={<Hexagon />} />
         <Route path="/home" element={<Home />} />

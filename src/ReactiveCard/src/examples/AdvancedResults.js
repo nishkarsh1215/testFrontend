@@ -6,6 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../../../LoginFirebase'
 import { dbms } from '../../../LoginFirebase'
 import ArcDesign from './ArcDesign'
+import { useNavigate } from 'react-router-dom'
 
 // Array of questions with corresponding images
 const dbs = [
@@ -66,6 +67,8 @@ function AdvancedResults() {
   const [questionsData, setQuestionsData] = useState([])
   const [formattedArray, setFormattedArray] = useState([])
   const [start, setStart] = useState(true)
+  const [showProduct, setShowProduct] = useState(false)
+  const navigate = useNavigate()
 
   const fetchQuestionsData = async () => {
     try {
@@ -91,9 +94,9 @@ function AdvancedResults() {
 
           return {
             pieData: [
-              { id: 0, value: l, label: 'Feels Yes', color: '#4caf50' }, // Green
-              { id: 1, value: r, label: 'Feels No', color: '#f44336' }, // Red
-              { id: 2, value: u, label: 'Skipped', color: '#ff9800' }, // Orange
+              { id: 0, value: l, label: 'Feels Yes', color: '#808080' }, // Green
+              { id: 1, value: r, label: 'Feels No', color: '#A9A9A9' }, // Red
+              { id: 2, value: u, label: 'Skipped', color: '#D3D3D3' }, // Orange
             ],
           }
         })
@@ -115,6 +118,7 @@ function AdvancedResults() {
         })
       } else {
         setUser(null)
+        navigate('/home')
       }
     })
     return () => unsubscribe()
@@ -141,6 +145,7 @@ function AdvancedResults() {
     updateCurrentIndex(index - 1)
     if (index - 1 < 0) {
       setSignShow(true)
+      setShowProduct(true)
       console.log('All cards are swiped')
     }
   }
@@ -204,6 +209,12 @@ function AdvancedResults() {
               </div>
             </TinderCard>
           ))}
+          {showProduct && (
+            <div>
+              <div className="final-text">Our Products</div>
+              <button className="centered-button">Show Products</button>
+            </div>
+          )}
         </div>
       )}
     </div>

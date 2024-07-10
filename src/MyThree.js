@@ -38,12 +38,12 @@ function MyThree({ swipeCount }) {
     // Load GLTF model
     const loader = new GLTFLoader()
     loader.load(
-      'https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/robot_cartoon.glb',
+      'https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/black-robo-no.glb',
       function (gltf) {
         const model = gltf.scene
         modelRef.current = model // Store the model in the ref
         // Optional: Adjust scale and position of the model
-        model.scale.set(0.6, 0.6, 0.6) // Adjust scale if needed
+        model.scale.set(0.7, 0.7, 0.7) // Adjust scale if needed
         model.position.set(0, -3, 0) // Adjust position if needed
         newScene.add(model)
 
@@ -100,7 +100,51 @@ function MyThree({ swipeCount }) {
     }
   }
 
+  function moveTo(x, y, z) {
+    if (modelRef.current) {
+      gsap.to(modelRef.current.position, {
+        x: x,
+        y: y,
+        z: z,
+        duration: 5, // Animation duration in seconds
+        ease: 'power1.inOut',
+      })
+    }
+  }
+
+  function scaleModel(scale) {
+    if (modelRef.current) {
+      gsap.to(modelRef.current.scale, {
+        x: scale,
+        y: scale,
+        z: scale,
+        duration: 2, // Animation duration in seconds
+        ease: 'power1.inOut',
+      })
+    }
+  }
+
   useEffect(() => {
+    if (swipeCount == 1) {
+      moveTo(2, -3, 0)
+    }
+    if (swipeCount == 5) {
+      moveTo(-2, -3, 0)
+    }
+    if (swipeCount == 6) {
+      {
+        moveTo(0, -3, 0)
+      }
+    }
+    if (swipeCount == 7) {
+      scaleModel(0.8)
+    }
+    if (swipeCount == 8) {
+      scaleModel(0.7)
+    }
+    if (swipeCount == 9) {
+      scaleModel(0.8)
+    }
     if (swipeCount >= 10) {
       removeEntity()
     }
