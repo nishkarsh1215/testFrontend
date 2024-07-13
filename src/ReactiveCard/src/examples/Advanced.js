@@ -57,7 +57,7 @@ const dbs = [
   },
 ]
 
-function Advanced() {
+function Advanced({ onAllCardsSwiped, sendArray, sendFinalArray }) {
   const [currentIndex, setCurrentIndex] = useState(dbs.length - 1)
   const [lastDirection, setLastDirection] = useState()
   const currentIndexRef = useRef(currentIndex)
@@ -69,6 +69,14 @@ function Advanced() {
   const [indicate, setIndicate] = useState(false)
   const location = useLocation()
   const navigate = useNavigate() // Initialize the navigate function
+
+  useEffect(() => {
+    // Example array to be sent
+    sendArray(responses)
+    sendFinalArray(questionsData)
+
+    // Trigger onAllCardsSwiped when all cards are swiped
+  }, [sendArray, responses, questionsData])
 
   ///////////////////////////////////////////////////////
   const fetchQuestionsData = async () => {
@@ -108,9 +116,6 @@ function Advanced() {
       const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
         if (currentUser) {
           let dummyArr = [...responses]
-          console.log('I am a current user')
-          console.log(dummyArr)
-          console.log(questionsData)
           let copyObj = [...questionsData]
           let i = 0
           for (let element of copyObj) {
@@ -197,6 +202,7 @@ function Advanced() {
       console.log('Updated responses:', updatedResponses)
       return updatedResponses
     })
+
     /////////////////////////////////
     setLastDirection(direction)
     updateCurrentIndex(index - 1)
@@ -204,6 +210,11 @@ function Advanced() {
       setSignShow(true)
       setIndicate(true)
       console.log('All cards are swiped')
+      setTimeout(() => {
+        if (onAllCardsSwiped) {
+          onAllCardsSwiped() // Notify the parent component after 1 second
+        }
+      }, 1000) // 1-second delay
     }
   }
 
@@ -265,8 +276,18 @@ function Advanced() {
                   <p>←Swipe→</p>
                 </div>
                 <div className="answerOptions">
-                  <div className="noOption">No</div>
-                  <div className="yesOption">Yes</div>
+                  <div
+                    className={`pressable noOption`}
+                    onClick={() => swipe('left')}
+                  >
+                    No
+                  </div>
+                  <div
+                    className={`pressable yesOption`}
+                    onClick={() => swipe('right')}
+                  >
+                    Yes
+                  </div>
                 </div>
               </div>
             </TinderCard>
@@ -274,7 +295,7 @@ function Advanced() {
         </div>
       )}
 
-      {signShow && (
+      {/* {signShow && (
         <div>
           {user ? (
             <div>
@@ -297,9 +318,34 @@ function Advanced() {
             </div>
           )}
         </div>
-      )}
+      )} */}
     </div>
   )
 }
 
 export default Advanced
+
+// {signShow && (
+//   <div>
+//     {user ? (
+//       <div>
+//         <div className="final-text">
+//           Do you want to see the views of others?
+//         </div>
+//         <button
+//           className="centered-button"
+//           onClick={() => navigate('/card')}
+//         >
+//           Let's Go
+//         </button>
+//       </div>
+//     ) : (
+//       <div>
+//         <div className="final-text">
+//           Subscribe to Sanctity's Newsletter
+//         </div>
+//         <SignInwithGoogle />
+//       </div>
+//     )}
+//   </div>
+// )}

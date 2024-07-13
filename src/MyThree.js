@@ -38,7 +38,7 @@ function MyThree({ swipeCount }) {
     // Load GLTF model
     const loader = new GLTFLoader()
     loader.load(
-      'https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/black-robo-no.glb',
+      'https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/untitled_new_again.glb',
       function (gltf) {
         const model = gltf.scene
         modelRef.current = model // Store the model in the ref
@@ -106,7 +106,7 @@ function MyThree({ swipeCount }) {
         x: x,
         y: y,
         z: z,
-        duration: 5, // Animation duration in seconds
+        duration: 2, // Animation duration in seconds
         ease: 'power1.inOut',
       })
     }

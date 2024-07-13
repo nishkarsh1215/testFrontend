@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useSwipeable } from 'react-swipeable'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
 import { auth } from './LoginFirebase'
+import { dbms } from './LoginFirebase'
 import { gsap } from 'gsap'
+import { toast, ToastContainer } from 'react-toastify'
 import MyThree from './MyThree'
 import Advanced from './ReactiveCard/src/examples/Advanced'
 import { onAuthStateChanged } from 'firebase/auth'
 import AdvancedResults from './ReactiveCard/src/examples/AdvancedResults'
+import SignInwithGoogle from './SignInwithGoogle'
+
 const Home = () => {
   const navigate = useNavigate() // Initialize useNavigate
+  const location = useLocation()
   const [upperText, setUpperText] = useState('')
   const [middleText, setMiddleText] = useState('')
   const [lowerText, setLowerText] = useState('')
@@ -26,6 +31,9 @@ const Home = () => {
   const [middleTextFontSize, setMiddleTextFontSize] = useState('23px')
   const [lowerTextFontSize, setLowerTextFontSize] = useState('23px')
   const [user, setUser] = useState(null)
+  const [allCardsSwiped, setAllCardsSwiped] = useState(false)
+  const [responses, setResponses] = useState([])
+  const [questionsData, setQuestionsData] = useState([])
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -44,6 +52,9 @@ const Home = () => {
     'We foster a world',
     'We foster a world',
     'Now, we want to hear',
+    '',
+    'Our beta versions',
+    'Signup for early',
   ]
   const extraUpperTextArray = [
     '',
@@ -57,6 +68,9 @@ const Home = () => {
     'in which use of AI is',
     'in which use of AI is',
     '',
+    '',
+    'are being rolled out',
+    'access',
   ]
   const middleTextArray = [
     'are enabling an',
@@ -70,6 +84,9 @@ const Home = () => {
     'INVIOLABLE',
     'RESPONSIBLE',
     'from',
+    '',
+    '',
+    '',
   ]
   const lowerTextArray = [
     'ECOSYSTEM',
@@ -83,27 +100,71 @@ const Home = () => {
     'for HUMANS',
     'for HUMANS',
     'YOU',
+    '',
+    '',
+    '',
   ]
 
+  const updateQuestionsData = async (updatedData) => {
+    try {
+      await dbms.ref('questions').set(updatedData)
+      console.log('Data updated successfully!')
+    } catch (error) {
+      console.error('Error updating data:', error.message)
+      throw error
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser && location.pathname === '/home' && allCardsSwiped) {
+        let dummyArr = [...responses]
+        let copyObj = [...questionsData]
+        let i = 0
+        for (let element of copyObj) {
+          element.responses.push({
+            [currentUser.displayName]: responses[i],
+          }) // Example of adding {"nish": 0} to responses array
+          ++i
+        }
+        console.log('Here are the updated ones')
+        updateQuestionsData(copyObj)
+        // updateQuestionsData(copyObj)
+        setUser(currentUser)
+        navigate('/card')
+        //////////////////////checkpoint
+        toast.success(`Welcome back, ${currentUser.displayName}`, {
+          position: 'top-center',
+        })
+      } else {
+        setUser(null)
+      }
+    })
+    return () => unsubscribe()
+  }, [location.pathname, navigate, responses, questionsData, allCardsSwiped])
+
   const handleSwipe = (eventData) => {
+    // swipeCount > 10 && !allCardsSwiped
     let newUpperText = ''
     let swipeVarCount = swipeCount
-    if (eventData.dir === 'Left') {
-      newUpperText = 'Swiped Left!'
-    } else if (eventData.dir === 'Right') {
-      newUpperText = 'Swiped Right!'
-    } else if (eventData.dir === 'Up') {
-      ++swipeVarCount
-      setSwipeCount(swipeVarCount)
-      newUpperText = 'Swiped Up!'
-    } else if (eventData.dir === 'Down') {
-      --swipeVarCount
-      if (swipeVarCount <= 0) {
-        setSwipeCount(0)
-      } else {
+    if (!(swipeCount > 10 && !allCardsSwiped)) {
+      if (eventData.dir === 'Left') {
+        newUpperText = 'Swiped Left!'
+      } else if (eventData.dir === 'Right') {
+        newUpperText = 'Swiped Right!'
+      } else if (eventData.dir === 'Up') {
+        ++swipeVarCount
         setSwipeCount(swipeVarCount)
+        newUpperText = 'Swiped Up!'
+      } else if (eventData.dir === 'Down') {
+        --swipeVarCount
+        if (swipeVarCount <= 0) {
+          setSwipeCount(0)
+        } else {
+          setSwipeCount(swipeVarCount)
+        }
+        newUpperText = 'Swiped Down!'
       }
-      newUpperText = 'Swiped Down!'
     }
   }
 
@@ -115,6 +176,7 @@ const Home = () => {
 
   useEffect(() => {
     Animate(swipeCount)
+    console.log(swipeCount)
   }, [swipeCount])
 
   const Animate = (index) => {
@@ -155,7 +217,9 @@ const Home = () => {
             index == 6 ||
             index == 7 ||
             index == 8 ||
-            index == 9
+            index == 9 ||
+            index == 12 ||
+            index == 13
           ) {
             setTextMiddleColor('white')
             setMiddleTextFontSize('35px')
@@ -245,6 +309,32 @@ const Home = () => {
     }
   }
 
+  useEffect(() => {
+    if (allCardsSwiped) {
+      handleAllCardsSwiped()
+    }
+  }, [allCardsSwiped])
+
+  const handleAllCardsSwiped = () => {
+    console.log('All cards have been swiped! Running the function...')
+    setUpperText('We are building products')
+    setMiddleText('that empower')
+    setLowerText('Humans')
+    setTextLowerColor('white')
+    // Add your logic here. This function will run when all cards are swiped.
+  }
+
+  const handleArrayFromAdvanced = (array) => {
+    console.log('Array received from Advanced:', array)
+    setResponses(array)
+    // You can now use the array in the Home component
+  }
+
+  const handleArrayFromFinal = (array) => {
+    console.log(array)
+    setQuestionsData(array)
+  }
+
   return (
     <div className="spline-container" {...handlers}>
       <div className="overlay-text">
@@ -279,7 +369,21 @@ const Home = () => {
           {lowerText}
         </div>
       </div>
-      {swipeCount > 10 ? <Advanced /> : <MyThree swipeCount={swipeCount} />}
+
+      {swipeCount > 10 && !allCardsSwiped ? (
+        <Advanced
+          onAllCardsSwiped={() => setAllCardsSwiped(true)}
+          sendArray={handleArrayFromAdvanced}
+          sendFinalArray={handleArrayFromFinal}
+        />
+      ) : (
+        <MyThree swipeCount={swipeCount} />
+      )}
+      {swipeCount == 13 && allCardsSwiped && (
+        <div className="fullscreen-container">
+          <SignInwithGoogle />
+        </div>
+      )}
     </div>
   )
 }
