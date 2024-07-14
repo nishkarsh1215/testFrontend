@@ -111,48 +111,48 @@ function Advanced({ onAllCardsSwiped, sendArray, sendFinalArray }) {
   }, [])
 
   // Handle user authentication state
-  useEffect(() => {
-    if (location.pathname === '/home' && indicate) {
-      const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-        if (currentUser) {
-          let dummyArr = [...responses]
-          let copyObj = [...questionsData]
-          let i = 0
-          for (let element of copyObj) {
-            element.responses.push({
-              [currentUser.displayName]: responses[i],
-            }) // Example of adding {"nish": 0} to responses array
-            ++i
-          }
-          console.log('Here are the updated ones')
+  // useEffect(() => {
+  //   if (location.pathname === '/home' && indicate) {
+  //     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+  //       if (currentUser) {
+  //         let dummyArr = [...responses]
+  //         let copyObj = [...questionsData]
+  //         let i = 0
+  //         for (let element of copyObj) {
+  //           element.responses.push({
+  //             [currentUser.displayName]: responses[i],
+  //           }) // Example of adding {"nish": 0} to responses array
+  //           ++i
+  //         }
+  //         console.log('Here are the updated ones')
 
-          updateQuestionsData(copyObj)
-          setUser(currentUser)
-          toast.success(`Welcome back, ${currentUser.displayName}`, {
-            position: 'top-center',
-          })
-        } else {
-          setUser(null)
-        }
-      })
-      return () => unsubscribe()
-    }
-  }, [location.pathname, navigate, responses])
+  //         updateQuestionsData(copyObj)
+  //         setUser(currentUser)
+  //         toast.success(`Welcome back, ${currentUser.displayName}`, {
+  //           position: 'top-center',
+  //         })
+  //       } else {
+  //         setUser(null)
+  //       }
+  //     })
+  //     return () => unsubscribe()
+  //   }
+  // }, [location.pathname, navigate, responses])
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser)
-        toast.success(`Welcome back, ${currentUser.displayName}`, {
-          position: 'top-center',
-        })
-        navigate('/card')
-      } else {
-        setUser(null)
-      }
-    })
-    return () => unsubscribe()
-  }, [])
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+  //     if (currentUser) {
+  //       setUser(currentUser)
+  //       toast.success(`Welcome back, ${currentUser.displayName}`, {
+  //         position: 'top-center',
+  //       })
+  //       navigate('/card')
+  //     } else {
+  //       setUser(null)
+  //     }
+  //   })
+  //   return () => unsubscribe()
+  // }, [])
 
   // Handle user authentication state
 
@@ -259,6 +259,7 @@ function Advanced({ onAllCardsSwiped, sendArray, sendFinalArray }) {
             <TinderCard
               ref={childRefs[index]}
               className="swipe"
+              preventSwipe={['down']}
               key={character.name}
               onSwipe={(dir) => swiped(dir, character.name, index)}
               onCardLeftScreen={() => outOfFrame(character.name, index)}

@@ -170,8 +170,18 @@ function AdvancedResults() {
     await childRefs[newIndex].current.restoreCard()
   }
 
+  const onTouchStart = (ev) => {
+    if (ev.srcElement && typeof ev.srcElement.className === 'string') {
+      if (ev.srcElement.className.includes('some-class')) {
+        // Your logic here
+      }
+    } else {
+      console.warn('srcElement or className is not a string:', ev.srcElement)
+    }
+  }
+
   return (
-    <div>
+    <div onTouchStart={onTouchStart}>
       <link
         href="https://fonts.googleapis.com/css?family=Damion&display=swap"
         rel="stylesheet"
@@ -190,6 +200,7 @@ function AdvancedResults() {
               key={character.name}
               onSwipe={(dir) => swiped(dir, character.name, index)}
               onCardLeftScreen={() => outOfFrame(character.name, index)}
+              preventSwipe={['right', 'up', 'down']}
             >
               <div
                 style={{
@@ -200,6 +211,23 @@ function AdvancedResults() {
                 <div className="question">
                   <p>{character.question}</p>
                 </div>
+                <button
+                  className="pressable"
+                  onClick={() => swipe('left')}
+                  style={{
+                    backgroundColor: 'gray',
+                    color: 'white',
+                    padding: '10px 20px',
+                    border: 'none',
+                    cursor: 'pointer',
+                    borderRadius: '20px',
+                    fontFamily: 'Black Ops One',
+                    fontSize: '16px', // Adjust the font size as needed
+                  }}
+                >
+                  Next
+                </button>
+
                 {index === currentIndex && (
                   <ArcDesign
                     data={formattedArray[index]?.pieData || []}

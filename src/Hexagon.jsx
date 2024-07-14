@@ -114,6 +114,7 @@ const Hexagon = () => {
           fill="white"
           fontSize="16"
           fontFamily="Black Ops One"
+          onClick={ImageToHome}
         >
           I
         </text>
@@ -125,6 +126,7 @@ const Hexagon = () => {
           fill="white"
           fontSize="16"
           fontFamily="Black Ops One"
+          onClick={ImageToHome}
         >
           AM
         </text>
@@ -136,6 +138,7 @@ const Hexagon = () => {
           fill="white"
           fontSize="16"
           fontFamily="Black Ops One"
+          onClick={ImageToHome}
         >
           HUMAN
         </text>

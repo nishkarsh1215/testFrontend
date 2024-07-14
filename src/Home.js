@@ -35,11 +35,6 @@ const Home = () => {
   const [responses, setResponses] = useState([])
   const [questionsData, setQuestionsData] = useState([])
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setUser(user)
-    })
-  }, [])
   const upperTextArray = [
     'We, at Sanctity AI',
     'in which',
@@ -116,7 +111,16 @@ const Home = () => {
   }
 
   useEffect(() => {
+    console.log('bro i am running')
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log(user)
+      console.log(currentUser)
+      if (currentUser) {
+        setUser(currentUser)
+      } else {
+        setUser(null)
+      }
       if (currentUser && location.pathname === '/home' && allCardsSwiped) {
         let dummyArr = [...responses]
         let copyObj = [...questionsData]
@@ -131,23 +135,28 @@ const Home = () => {
         updateQuestionsData(copyObj)
         // updateQuestionsData(copyObj)
         setUser(currentUser)
-        navigate('/card')
+        // navigate('/card')
         //////////////////////checkpoint
         toast.success(`Welcome back, ${currentUser.displayName}`, {
           position: 'top-center',
         })
-      } else {
-        setUser(null)
       }
     })
     return () => unsubscribe()
-  }, [location.pathname, navigate, responses, questionsData, allCardsSwiped])
+  }, [
+    location.pathname,
+    navigate,
+    responses,
+    questionsData,
+    allCardsSwiped,
+    user,
+  ])
 
   const handleSwipe = (eventData) => {
     // swipeCount > 10 && !allCardsSwiped
     let newUpperText = ''
     let swipeVarCount = swipeCount
-    if (!(swipeCount > 10 && !allCardsSwiped)) {
+    if (!(swipeCount > 10 && !allCardsSwiped && !user) && swipeCount <= 12) {
       if (eventData.dir === 'Left') {
         newUpperText = 'Swiped Left!'
       } else if (eventData.dir === 'Right') {
@@ -175,7 +184,17 @@ const Home = () => {
   })
 
   useEffect(() => {
-    Animate(swipeCount)
+    if (!(!allCardsSwiped && !user) && swipeCount == 11) {
+      {
+        setUpperText('We are building products')
+        setMiddleText('that empower')
+        setLowerText('Humans')
+        setTextLowerColor('white')
+      }
+    } else {
+      Animate(swipeCount)
+    }
+
     console.log(swipeCount)
   }, [swipeCount])
 
@@ -188,8 +207,13 @@ const Home = () => {
         opacity: 0,
         duration: 0.5,
         onComplete: () => {
-          setUpperText(upperTextArray[index])
-          setExtraUpperText(extraUpperTextArray[swipeCount])
+          if (user && index == 13) {
+            setUpperText('Congrats, you are already')
+            setExtraUpperText('signed in')
+          } else {
+            setUpperText(upperTextArray[index])
+            setExtraUpperText(extraUpperTextArray[swipeCount])
+          }
 
           if (index === 2 || index === 3 || index === 4 || index === 5) {
             setTextUpperColor('white')
@@ -335,6 +359,10 @@ const Home = () => {
     setQuestionsData(array)
   }
 
+  const handleButtonClick = () => {
+    navigate('/card')
+  }
+
   return (
     <div className="spline-container" {...handlers}>
       <div className="overlay-text">
@@ -370,7 +398,7 @@ const Home = () => {
         </div>
       </div>
 
-      {swipeCount > 10 && !allCardsSwiped ? (
+      {swipeCount > 10 && !allCardsSwiped && !user ? (
         <Advanced
           onAllCardsSwiped={() => setAllCardsSwiped(true)}
           sendArray={handleArrayFromAdvanced}
@@ -379,11 +407,31 @@ const Home = () => {
       ) : (
         <MyThree swipeCount={swipeCount} />
       )}
-      {swipeCount == 13 && allCardsSwiped && (
-        <div className="fullscreen-container">
-          <SignInwithGoogle />
-        </div>
-      )}
+
+      {swipeCount === 13 &&
+        (!user && allCardsSwiped ? (
+          <div className="fullscreen-container">
+            <SignInwithGoogle />
+          </div>
+        ) : (
+          <div className="fullscreen-container">
+            <button
+              onClick={handleButtonClick}
+              style={{
+                backgroundColor: 'black',
+                color: 'white',
+                padding: '10px 20px',
+                border: 'none',
+                cursor: 'pointer',
+                borderRadius: '20px',
+                fontFamily: 'Black Ops One',
+                fontSize: '16px', // Adjust the font size as needed
+              }}
+            >
+              Let's view results
+            </button>
+          </div>
+        ))}
     </div>
   )
 }

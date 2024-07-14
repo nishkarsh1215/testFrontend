@@ -121,7 +121,17 @@ function SwipeableEdgeDrawer(props) {
             overflow: 'auto',
           }}
         >
-          <h1>hello</h1>
+          <img
+            src="https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/SANCTITY-LOGO.png"
+            alt="Sanctity Logo"
+            width="150"
+            height="150"
+            style={{
+              filter: 'invert(100%)',
+              display: 'block',
+              margin: '0 auto',
+            }} // Center the image horizontally
+          />
           <Skeleton variant="rectangular" height="100%" />
         </StyledBox>
       </SwipeableDrawer>

@@ -38,7 +38,7 @@ function MyThree({ swipeCount }) {
     // Load GLTF model
     const loader = new GLTFLoader()
     loader.load(
-      'https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/untitled_new_again.glb',
+      'https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/untitled_new_updated.glb',
       function (gltf) {
         const model = gltf.scene
         modelRef.current = model // Store the model in the ref
@@ -106,7 +106,7 @@ function MyThree({ swipeCount }) {
         x: x,
         y: y,
         z: z,
-        duration: 2, // Animation duration in seconds
+        duration: 1, // Animation duration in seconds
         ease: 'power1.inOut',
       })
     }
@@ -118,7 +118,37 @@ function MyThree({ swipeCount }) {
         x: scale,
         y: scale,
         z: scale,
-        duration: 2, // Animation duration in seconds
+        duration: 1, // Animation duration in seconds
+        ease: 'power1.inOut',
+      })
+    }
+  }
+
+  function rotateModel() {
+    if (modelRef.current) {
+      gsap.to(modelRef.current.rotation, {
+        y: modelRef.current.rotation.z + Math.PI * 2,
+        duration: 1, // Animation duration in seconds
+        ease: 'power1.inOut',
+      })
+    }
+  }
+
+  function rotateModelX() {
+    if (modelRef.current) {
+      gsap.to(modelRef.current.rotation, {
+        z: modelRef.current.rotation.z + Math.PI * 2,
+        duration: 1, // Animation duration in seconds
+        ease: 'power1.inOut',
+      })
+    }
+  }
+
+  function rotateModelAntiClockwise() {
+    if (modelRef.current) {
+      gsap.to(modelRef.current.rotation, {
+        y: modelRef.current.rotation.z - Math.PI * 2,
+        duration: 1, // Animation duration in seconds
         ease: 'power1.inOut',
       })
     }
@@ -128,24 +158,49 @@ function MyThree({ swipeCount }) {
     if (swipeCount == 1) {
       moveTo(2, -3, 0)
     }
-    if (swipeCount == 5) {
+    if (swipeCount == 2) {
+      rotateModel()
       moveTo(-2, -3, 0)
+    }
+    if (swipeCount == 3) {
+      rotateModelAntiClockwise()
+      moveTo(0, -3, 0)
+    }
+    if (swipeCount == 4) {
+      rotateModel()
+      moveTo(0, -3.2, 0)
+      scaleModel(0.9)
+    }
+    if (swipeCount == 5) {
+      rotateModelAntiClockwise()
+      scaleModel(0.7)
     }
     if (swipeCount == 6) {
       {
         moveTo(0, -3, 0)
+        scaleModel(0.8)
       }
     }
     if (swipeCount == 7) {
-      scaleModel(0.8)
+      rotateModel()
     }
     if (swipeCount == 8) {
-      scaleModel(0.7)
     }
     if (swipeCount == 9) {
-      scaleModel(0.8)
+      rotateModelX()
+      scaleModel(0.9)
     }
-    if (swipeCount >= 10) {
+    if (swipeCount == 10) {
+      moveTo(0, -3.2, 0)
+      removeEntity()
+    }
+    if (swipeCount == 11) {
+      removeEntity()
+    }
+    if (swipeCount == 12) {
+      rotateModel()
+    }
+    if (swipeCount == 13) {
       removeEntity()
     }
   }, [swipeCount, scene])
