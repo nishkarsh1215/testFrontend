@@ -147,6 +147,7 @@ function AdvancedResults() {
       setSignShow(true)
       setShowProduct(true)
       console.log('All cards are swiped')
+      navigate('/product')
     }
   }
 

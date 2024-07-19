@@ -48,6 +48,7 @@ html {
 }
 
 .container-upper,
+.container-upper-extra,
 .container-middle,
 .container-lower {
   user-select: none; /* Prevent text selection */

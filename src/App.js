@@ -6,6 +6,8 @@ import MyThree from './MyThree'
 import AppCard from './ReactiveCard/src/AppCard'
 import ResponsiveAppBar from './ResponsiveAppBar'
 import SwipeableEdgeDrawer from './SwipeableEdgeDrawer'
+import ScrollOne from './ScrollOne'
+import ProductPage from './ProductPage'
 
 const App = () => {
   console.log('App Loaded')
@@ -17,6 +19,8 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/three" element={<MyThree />} />
         <Route path="/card" element={<AppCard />} />
+        <Route path="/scroll" element={<ScrollOne />} />
+        <Route path="/product" element={<ProductPage />} />
         <Route path="*" element={<Navigate to="/hexagon" replace />} />
       </Routes>
       <SwipeableEdgeDrawer />

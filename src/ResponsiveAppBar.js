@@ -10,13 +10,17 @@ import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
+import { useNavigate } from 'react-router-dom' // Import useNavigate
+import { signOut } from 'firebase/auth'
+import { auth } from './LoginFirebase' // Adjust the import path as necessary
 
-const pages = ['Home', 'Products', 'Blog']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+const pages = ['Home', 'Products']
+const settings = ['Logout']
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const navigate = useNavigate() // Initialize useNavigate
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -32,6 +36,24 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
+  }
+
+  const handleNavigation = (page) => {
+    if (page === 'Home') {
+      navigate('/home')
+    } else if (page === 'Products') {
+      navigate('/product')
+    }
+    handleCloseNavMenu() // Close the menu after navigation
+  }
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      navigate('/hexagon') // Redirect to /hexagon after logout
+    } catch (error) {
+      console.error('Error logging out:', error)
+    }
   }
 
   return (
@@ -88,7 +110,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseNavMenu}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={() => handleNavigation(page)}>
                   <Typography textAlign="center" color="inherit">
                     {page}
                   </Typography>
@@ -119,7 +141,15 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      handleCloseUserMenu()
+                      if (setting === 'Logout') {
+                        handleLogout()
+                      }
+                    }}
+                  >
                     <Typography textAlign="center" color="inherit">
                       {setting}
                     </Typography>

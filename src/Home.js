@@ -11,6 +11,7 @@ import Advanced from './ReactiveCard/src/examples/Advanced'
 import { onAuthStateChanged } from 'firebase/auth'
 import AdvancedResults from './ReactiveCard/src/examples/AdvancedResults'
 import SignInwithGoogle from './SignInwithGoogle'
+import ReactScrollWheelHandler from 'react-scroll-wheel-handler'
 
 const Home = () => {
   const navigate = useNavigate() // Initialize useNavigate
@@ -26,14 +27,17 @@ const Home = () => {
   const [textMiddleColor, setTextMiddleColor] = useState('black') // State variable for text color
   const [textLowerColor, setTextLowerColor] = useState('black') // State variable for text color
   const [upperTextWhiteSpace, setUpperTextWhiteSpace] = useState('nowrap') // State variable for white-space
-  const [upperTextFontSize, setUpperTextFontSize] = useState('23px')
-  const [extraUpperTextFontSize, setExtraUpperTextFontSize] = useState('23px')
-  const [middleTextFontSize, setMiddleTextFontSize] = useState('23px')
-  const [lowerTextFontSize, setLowerTextFontSize] = useState('23px')
+  const [upperTextFontSize, setUpperTextFontSize] = useState('100%')
+  const [extraUpperTextFontSize, setExtraUpperTextFontSize] = useState('100%')
+  const [middleTextFontSize, setMiddleTextFontSize] = useState('100%')
+  const [lowerTextFontSize, setLowerTextFontSize] = useState('100%')
   const [user, setUser] = useState(null)
   const [allCardsSwiped, setAllCardsSwiped] = useState(false)
   const [responses, setResponses] = useState([])
   const [questionsData, setQuestionsData] = useState([])
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [rotationCount, setRotationCount] = useState(0)
+  const colors = ['red', 'black', 'grey', 'blue', 'green']
 
   const upperTextArray = [
     'We, at Sanctity AI',
@@ -41,15 +45,15 @@ const Home = () => {
     'OF',
     'BY',
     'FOR',
-    'We put ETHICS',
+    'ETHICS',
     'We foster a world',
     'We foster a world',
     'We foster a world',
     'We foster a world',
     'Now, we want to hear',
     '',
-    'Our beta versions',
-    'Signup for early',
+    'are being rolled out',
+    'access',
   ]
   const extraUpperTextArray = [
     '',
@@ -57,15 +61,15 @@ const Home = () => {
     '',
     '',
     '',
-    '',
+    'We put ',
     'in which use of AI is',
     'in which use of AI is',
     'in which use of AI is',
     'in which use of AI is',
     '',
     '',
-    'are being rolled out',
-    'access',
+    'Our beta versions',
+    'Signup for early',
   ]
   const middleTextArray = [
     'are enabling an',
@@ -186,7 +190,7 @@ const Home = () => {
   useEffect(() => {
     if (!(!allCardsSwiped && !user) && swipeCount == 11) {
       {
-        setUpperText('We are building products')
+        setUpperText('We`re building products')
         setMiddleText('that empower')
         setLowerText('Humans')
         setTextLowerColor('white')
@@ -203,21 +207,27 @@ const Home = () => {
       index === 3 || index === 4 || index === 7 || index === 8 || index === 9
 
     if (!skipAnimation) {
+      //////////////extra
+
+      ////////////////////
       gsap.to('.container-upper', {
         opacity: 0,
         duration: 0.5,
         onComplete: () => {
           if (user && index == 13) {
-            setUpperText('Congrats, you are already')
-            setExtraUpperText('signed in')
+            setUpperText('signed in')
+            setExtraUpperText('Congrats, you are')
+            setUpperTextFontSize('180%')
           } else {
             setUpperText(upperTextArray[index])
             setExtraUpperText(extraUpperTextArray[swipeCount])
+            setUpperTextFontSize('180%')
           }
 
           if (index === 2 || index === 3 || index === 4 || index === 5) {
             setTextUpperColor('white')
-            setUpperTextFontSize('35px')
+            setUpperTextFontSize('180%')
+            setExtraUpperText(extraUpperTextArray[index])
             gsap.fromTo(
               '.container-upper',
               { scale: 5 },
@@ -225,7 +235,7 @@ const Home = () => {
             )
           } else {
             setTextUpperColor('black')
-            setUpperTextFontSize('23px')
+            setUpperTextFontSize('100%')
           }
           gsap.to('.container-upper', { opacity: 1, duration: 0.5 })
         },
@@ -246,7 +256,7 @@ const Home = () => {
             index == 13
           ) {
             setTextMiddleColor('white')
-            setMiddleTextFontSize('35px')
+            setMiddleTextFontSize('180%')
             gsap.fromTo(
               '.container-middle',
               { scale: 5 },
@@ -254,7 +264,7 @@ const Home = () => {
             )
           } else {
             setTextMiddleColor('black')
-            setMiddleTextFontSize('23px')
+            setMiddleTextFontSize('100%')
           }
           gsap.to('.container-middle', { opacity: 1, duration: 0.5 })
         },
@@ -267,7 +277,7 @@ const Home = () => {
           setLowerText(lowerTextArray[index])
           if (index == 0 || index == 10) {
             setTextLowerColor('white')
-            setLowerTextFontSize('35px')
+            setLowerTextFontSize('180%')
             gsap.fromTo(
               '.container-lower',
               { scale: 5 },
@@ -275,7 +285,7 @@ const Home = () => {
             )
           } else {
             setTextLowerColor('black')
-            setLowerTextFontSize('23px')
+            setLowerTextFontSize('100%')
           }
           gsap.to('.container-lower', { opacity: 1, duration: 0.5 })
         },
@@ -293,7 +303,7 @@ const Home = () => {
           onComplete: () => {
             setUpperText(upperTextArray[index])
             setTextUpperColor('white')
-            setUpperTextFontSize('35px')
+            setUpperTextFontSize('180%')
             gsap.fromTo(
               '.container-upper',
               { scale: 5 },
@@ -305,7 +315,7 @@ const Home = () => {
         /////////////////////////////////////
       } else {
         setTextUpperColor('black')
-        setUpperTextFontSize('23px')
+        setUpperTextFontSize('100%')
       }
       //////////////
       if (index == 7 || index == 8 || index == 9) {
@@ -316,7 +326,7 @@ const Home = () => {
           onComplete: () => {
             setMiddleText(middleTextArray[index])
             setTextMiddleColor('white')
-            setMiddleTextFontSize('35px')
+            setMiddleTextFontSize('180%')
             gsap.fromTo(
               '.container-middle',
               { scale: 5 },
@@ -328,7 +338,7 @@ const Home = () => {
         ////////////////////////////////////////////////////
       } else {
         setTextMiddleColor('black')
-        setMiddleTextFontSize('23px')
+        setMiddleTextFontSize('100%')
       }
     }
   }
@@ -340,6 +350,10 @@ const Home = () => {
   }, [allCardsSwiped])
 
   const handleAllCardsSwiped = () => {
+    setUpperTextFontSize('100%')
+    setExtraUpperTextFontSize('100%')
+    setMiddleTextFontSize('100%')
+    setLowerTextFontSize('180%')
     console.log('All cards have been swiped! Running the function...')
     setUpperText('We are building products')
     setMiddleText('that empower')
@@ -363,76 +377,133 @@ const Home = () => {
     navigate('/card')
   }
 
+  useEffect(() => {
+    console.log(rotationCount)
+    console.log(swipeCount)
+    if (rotationCount == 1) {
+      setSwipeCount(1)
+    } else if (rotationCount == 2) {
+      setSwipeCount(2)
+    } else if (rotationCount == 3) {
+      setSwipeCount(3)
+    } else if (rotationCount == 4) {
+      setSwipeCount(4)
+    } else if (rotationCount == 5) {
+      setSwipeCount(5)
+    } else if (rotationCount == 6) {
+      setSwipeCount(6)
+    } else if (rotationCount == 7) {
+      setSwipeCount(7)
+    } else if (rotationCount == 8) {
+      setSwipeCount(8)
+    } else if (rotationCount == 9) {
+      setSwipeCount(9)
+    } else if (rotationCount == 10) {
+      setSwipeCount(10)
+    } else if (rotationCount == 11) {
+      setSwipeCount(11)
+    } else if (rotationCount == 12) {
+      setSwipeCount(12)
+    } else if (rotationCount == 13) {
+      setSwipeCount(13)
+    }
+  }, [rotationCount])
+
+  const nextIndex = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === colors.length - 1 ? 0 : prevIndex + 1,
+    )
+  }
+
+  const prevIndex = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? colors.length - 1 : prevIndex - 1,
+    )
+  }
+
+  const handleWheel = (event) => {
+    console.log('rotation')
+    if (!(rotationCount - 1 > 10 && !allCardsSwiped && !user)) {
+      setRotationCount((prevCount) => prevCount + 1)
+    } else {
+      console.log('no loggged in ')
+    }
+  }
+
   return (
-    <div className="spline-container" {...handlers}>
-      <div className="overlay-text">
-        <div
-          className="container-upper"
-          style={{
-            color: textUpperColor,
-            whiteSpace: upperTextWhiteSpace,
-            fontSize: upperTextFontSize,
-          }}
-        >
-          {upperText}
-        </div>
-
-        <div
-          className="container-upper"
-          style={{ fontSize: extraUpperTextFontSize }}
-        >
-          {extraUpperText}
-        </div>
-
-        <div
-          className="container-middle"
-          style={{ color: textMiddleColor, fontSize: middleTextFontSize }}
-        >
-          {middleText}
-        </div>
-        <div
-          className="container-lower"
-          style={{ color: textLowerColor, fontSize: lowerTextFontSize }}
-        >
-          {lowerText}
-        </div>
-      </div>
-
-      {swipeCount > 10 && !allCardsSwiped && !user ? (
-        <Advanced
-          onAllCardsSwiped={() => setAllCardsSwiped(true)}
-          sendArray={handleArrayFromAdvanced}
-          sendFinalArray={handleArrayFromFinal}
-        />
-      ) : (
-        <MyThree swipeCount={swipeCount} />
-      )}
-
-      {swipeCount === 13 &&
-        (!user && allCardsSwiped ? (
-          <div className="fullscreen-container">
-            <SignInwithGoogle />
+    <ReactScrollWheelHandler
+      upHandler={(e) => console.log('scroll up')}
+      downHandler={handleWheel}
+    >
+      <div className="spline-container" {...handlers}>
+        <div className="overlay-text">
+          <div
+            className="container-upper-extra"
+            style={{ fontSize: extraUpperTextFontSize }}
+          >
+            {extraUpperText}
           </div>
+          <div
+            className="container-upper"
+            style={{
+              color: textUpperColor,
+              whiteSpace: upperTextWhiteSpace,
+              fontSize: upperTextFontSize,
+            }}
+          >
+            {upperText}
+          </div>
+
+          <div
+            className="container-middle"
+            style={{ color: textMiddleColor, fontSize: middleTextFontSize }}
+          >
+            {middleText}
+          </div>
+          <div
+            className="container-lower"
+            style={{ color: textLowerColor, fontSize: lowerTextFontSize }}
+          >
+            {lowerText}
+          </div>
+        </div>
+
+        {swipeCount > 10 && !allCardsSwiped && !user ? (
+          <Advanced
+            onAllCardsSwiped={() => setAllCardsSwiped(true)}
+            sendArray={handleArrayFromAdvanced}
+            sendFinalArray={handleArrayFromFinal}
+          />
         ) : (
-          <div className="fullscreen-container">
-            <button
-              onClick={handleButtonClick}
-              style={{
-                backgroundColor: 'black',
-                color: 'white',
-                padding: '10px 20px',
-                border: 'none',
-                cursor: 'pointer',
-                borderRadius: '20px',
-                fontFamily: 'Black Ops One',
-                fontSize: '16px', // Adjust the font size as needed
-              }}
-            >
-              Let's view results
-            </button>
-          </div>
-        ))}
-    </div>
+          <MyThree swipeCount={swipeCount} />
+        )}
+
+        {swipeCount === 13 &&
+          (!user && allCardsSwiped ? (
+            <div className="fullscreen-container">
+              <SignInwithGoogle />
+            </div>
+          ) : (
+            <div className="fullscreen-container">
+              <button
+                onClick={handleButtonClick}
+                style={{
+                  backgroundColor: 'black',
+                  color: 'white',
+                  padding: '10px 20px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  borderRadius: '20px',
+                  fontFamily: 'Black Ops One',
+                  fontSize: '16px', // Adjust the font size as needed
+                }}
+              >
+                Let's view results
+              </button>
+            </div>
+          ))}
+      </div>
+    </ReactScrollWheelHandler>
   )
 }
 
