@@ -102,15 +102,7 @@ function SwipeableEdgeDrawer(props) {
         >
           <Puller onClick={handlePullerClick} /> {/* Attach onClick handler */}
           <Typography variant="body2" color="textSecondary">
-            Made with{' '}
-            <FavoriteIcon
-              style={{
-                fontSize: 16,
-                verticalAlign: 'middle',
-                color: 'red',
-              }}
-            />{' '}
-            in India
+            We are Sanctity
           </Typography>
         </StyledBox>
         <StyledBox

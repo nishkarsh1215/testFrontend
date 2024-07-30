@@ -46,10 +46,10 @@ const Home = () => {
     'BY',
     'FOR',
     'ETHICS',
-    'We foster a world',
-    'We foster a world',
-    'We foster a world',
-    'We foster a world',
+    'in which use of AI is',
+    'in which use of AI is',
+    'in which use of AI is',
+    'in which use of AI is',
     'Now, we want to hear',
     '',
     'are being rolled out',
@@ -62,10 +62,10 @@ const Home = () => {
     '',
     '',
     'We put ',
-    'in which use of AI is',
-    'in which use of AI is',
-    'in which use of AI is',
-    'in which use of AI is',
+    'We foster a world',
+    'We foster a world',
+    'We foster a world',
+    'We foster a world',
     '',
     '',
     'Our beta versions',
@@ -423,10 +423,12 @@ const Home = () => {
 
   const handleWheel = (event) => {
     console.log('rotation')
-    if (!(rotationCount - 1 > 10 && !allCardsSwiped && !user)) {
-      setRotationCount((prevCount) => prevCount + 1)
-    } else {
-      console.log('no loggged in ')
+    if (!(swipeCount > 10 && !allCardsSwiped && !user)) {
+      if (!(rotationCount - 1 > 10 && !allCardsSwiped && !user)) {
+        setRotationCount((prevCount) => prevCount + 1)
+      } else {
+        console.log('no loggged in ')
+      }
     }
   }
 

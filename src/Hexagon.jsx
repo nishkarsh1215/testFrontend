@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useNavigate } from 'react-router-dom'
+import './Hexagon.css'
 
 const Hexagon = () => {
   const svgRef = useRef(null)
@@ -62,18 +63,11 @@ const Hexagon = () => {
     navigate('/home')
   }
 
-  const radii = [60, 80, 120, 150, 200, 300] // radii of concentric hexagons
+  const radii = [60, 80, 120, 150, 200, 260] // radii of concentric hexagons
   const strokeWidths = [3, 6, 9, 12, 15, 18] // different stroke widths for each hexagon
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-      }}
-    >
+    <div className="hexagon-container">
       <svg ref={svgRef} viewBox="0 -150 400 700" className="hexagon-svg">
         {radii.map((r, index) => (
           <path

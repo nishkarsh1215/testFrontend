@@ -61,7 +61,7 @@ function ResponsiveAppBar() {
   const handleLogout = async () => {
     try {
       await signOut(auth)
-      navigate('/hexagon') // Redirect to /hexagon after logout
+      navigate('/home') // Redirect to /hexagon after logout
     } catch (error) {
       console.error('Error logging out:', error)
     }
@@ -89,7 +89,7 @@ function ResponsiveAppBar() {
               }}
             >
               <img
-                src="https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/image1.png"
+                src="https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/hd_background_updated.png"
                 alt="Logo"
                 style={{ height: '30px' }}
               />
