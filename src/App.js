@@ -26,6 +26,7 @@ const App = () => {
         <Route path="/card" element={<AppCard />} />
         <Route path="/scroll" element={<ScrollOne />} />
         <Route path="/product" element={<ProductPage />} />
+        <Route path="*" element={<Navigate to="/" />} /> {/* Catch-all route */}
       </Routes>
       <SwipeableEdgeDrawer />
     </Router>

@@ -39,9 +39,11 @@ const Home = () => {
   const [rotationCount, setRotationCount] = useState(0)
   const colors = ['red', 'black', 'grey', 'blue', 'green']
 
+  const isMobile = window.matchMedia('(max-width: 768px)').matches
+
   const upperTextArray = [
-    'We, at Sanctity AI',
-    'in which',
+    'We, at Sanctity AI', //0
+    'in which', //1
     'OF',
     'BY',
     'FOR',
@@ -107,7 +109,6 @@ const Home = () => {
   const updateQuestionsData = async (updatedData) => {
     try {
       await dbms.ref('questions').set(updatedData)
-      console.log('Data updated successfully!')
     } catch (error) {
       console.error('Error updating data:', error.message)
       throw error
@@ -115,11 +116,7 @@ const Home = () => {
   }
 
   useEffect(() => {
-    console.log('bro i am running')
-
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log(user)
-      console.log(currentUser)
       if (currentUser) {
         setUser(currentUser)
       } else {
@@ -135,7 +132,7 @@ const Home = () => {
           }) // Example of adding {"nish": 0} to responses array
           ++i
         }
-        console.log('Here are the updated ones')
+
         updateQuestionsData(copyObj)
         // updateQuestionsData(copyObj)
         setUser(currentUser)
@@ -162,21 +159,12 @@ const Home = () => {
     let swipeVarCount = swipeCount
     if (!(swipeCount > 10 && !allCardsSwiped && !user) && swipeCount <= 12) {
       if (eventData.dir === 'Left') {
-        newUpperText = 'Swiped Left!'
       } else if (eventData.dir === 'Right') {
-        newUpperText = 'Swiped Right!'
       } else if (eventData.dir === 'Up') {
         ++swipeVarCount
         setSwipeCount(swipeVarCount)
         newUpperText = 'Swiped Up!'
       } else if (eventData.dir === 'Down') {
-        --swipeVarCount
-        if (swipeVarCount <= 0) {
-          setSwipeCount(0)
-        } else {
-          setSwipeCount(swipeVarCount)
-        }
-        newUpperText = 'Swiped Down!'
       }
     }
   }
@@ -188,9 +176,12 @@ const Home = () => {
   })
 
   useEffect(() => {
+    if (swipeCount == 11) {
+      setRotationCount(11)
+    }
     if (!(!allCardsSwiped && !user) && swipeCount == 11) {
       {
-        setUpperText('We`re building products')
+        setUpperText('We are building products')
         setMiddleText('that empower')
         setLowerText('Humans')
         setTextLowerColor('white')
@@ -198,8 +189,6 @@ const Home = () => {
     } else {
       Animate(swipeCount)
     }
-
-    console.log(swipeCount)
   }, [swipeCount])
 
   const Animate = (index) => {
@@ -252,7 +241,6 @@ const Home = () => {
             index == 7 ||
             index == 8 ||
             index == 9 ||
-            index == 12 ||
             index == 13
           ) {
             setTextMiddleColor('white')
@@ -354,22 +342,21 @@ const Home = () => {
     setExtraUpperTextFontSize('100%')
     setMiddleTextFontSize('100%')
     setLowerTextFontSize('180%')
-    console.log('All cards have been swiped! Running the function...')
+
     setUpperText('We are building products')
     setMiddleText('that empower')
     setLowerText('Humans')
     setTextLowerColor('white')
+
     // Add your logic here. This function will run when all cards are swiped.
   }
 
   const handleArrayFromAdvanced = (array) => {
-    console.log('Array received from Advanced:', array)
     setResponses(array)
     // You can now use the array in the Home component
   }
 
   const handleArrayFromFinal = (array) => {
-    console.log(array)
     setQuestionsData(array)
   }
 
@@ -378,8 +365,6 @@ const Home = () => {
   }
 
   useEffect(() => {
-    console.log(rotationCount)
-    console.log(swipeCount)
     if (rotationCount == 1) {
       setSwipeCount(1)
     } else if (rotationCount == 2) {
@@ -422,19 +407,17 @@ const Home = () => {
   }
 
   const handleWheel = (event) => {
-    console.log('rotation')
     if (!(swipeCount > 10 && !allCardsSwiped && !user)) {
       if (!(rotationCount - 1 > 10 && !allCardsSwiped && !user)) {
         setRotationCount((prevCount) => prevCount + 1)
       } else {
-        console.log('no loggged in ')
       }
     }
   }
 
   return (
     <ReactScrollWheelHandler
-      upHandler={(e) => console.log('scroll up')}
+      // upHandler={(e) => console.log('scroll up')}
       downHandler={handleWheel}
     >
       <div className="spline-container" {...handlers}>

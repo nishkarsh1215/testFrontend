@@ -5,7 +5,7 @@ import './Hexagon.css'
 
 const Hexagon = () => {
   const svgRef = useRef(null)
-  const dimamondRef = useRef(null)
+  const diamondRef = useRef(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -45,15 +45,14 @@ const Hexagon = () => {
   }, [])
 
   const ImageChangeOnHover = () => {
-    gsap.to(dimamondRef.current, {
+    gsap.to(diamondRef.current, {
       duration: 0.3,
       opacity: 0.5,
     })
-    console.log('image hovered')
   }
 
   const ImageChangeOutHover = () => {
-    gsap.to(dimamondRef.current, {
+    gsap.to(diamondRef.current, {
       duration: 0.3,
       opacity: 1,
     })
@@ -63,46 +62,48 @@ const Hexagon = () => {
     navigate('/home')
   }
 
-  const radii = [60, 80, 120, 150, 200, 260] // radii of concentric hexagons
+  const radii = [80, 100, 120, 150, 200, 260] // radii of concentric hexagons
   const strokeWidths = [3, 6, 9, 12, 15, 18] // different stroke widths for each hexagon
 
   return (
     <div className="hexagon-container">
-      <svg ref={svgRef} viewBox="0 -150 400 700" className="hexagon-svg">
+      <svg ref={svgRef} viewBox="-300 -300 600 600" className="hexagon-svg">
         {radii.map((r, index) => (
           <path
             key={index}
-            d={createHexagonPath(200, 200, r)}
+            d={createHexagonPath(0, 0, r)}
             fill="none"
             stroke="rgba(255, 255, 255, 0.2)"
             strokeWidth={strokeWidths[index]}
             className="hexagon"
           />
         ))}
-        {/* Image centered in the SVG */}
+        {/* Centered logo in the SVG */}
         <image
           xlinkHref="https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/SANCTITY-LOGO.png"
-          x="165"
-          y="130"
-          width="75"
-          height="150"
-          style={{ filter: 'invert(100%)' }}
+          x="-75" // Center horizontally: (width / 2) = 150 / 2
+          y="-150" // Center vertically: (height / 2) = 300 / 2
+          width="150"
+          height="300"
+          className="invert-color"
         />
+        {/* Diamond image positioned below the logo */}
         <image
           xlinkHref="https://raw.githubusercontent.com/nishkarsh1215/testFrontend/main/public/DIAMOND.svg"
-          ref={dimamondRef}
+          ref={diamondRef}
           className="DIAMOND"
-          x="120"
-          y="250"
+          x="-75" // Center horizontally
+          y="80" // Positioned below the logo. Adjust if needed.
           width="150"
           height="300"
           onMouseOver={ImageChangeOnHover}
           onMouseLeave={ImageChangeOutHover}
           onClick={ImageToHome}
         />
+        {/* Centered text below the images */}
         <text
-          x="197.5"
-          y="380"
+          x="0"
+          y="210" // Adjusted to center the text below the images
           textAnchor="middle"
           alignmentBaseline="middle"
           fill="white"
@@ -113,8 +114,8 @@ const Hexagon = () => {
           I
         </text>
         <text
-          x="197.5"
-          y="400"
+          x="0"
+          y="230" // Adjusted to center the text below the previous line
           textAnchor="middle"
           alignmentBaseline="middle"
           fill="white"
@@ -125,8 +126,8 @@ const Hexagon = () => {
           AM
         </text>
         <text
-          x="197.5"
-          y="420"
+          x="0"
+          y="250" // Adjusted to center the text below the previous line
           textAnchor="middle"
           alignmentBaseline="middle"
           fill="white"

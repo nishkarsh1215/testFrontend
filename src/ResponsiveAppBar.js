@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import { useNavigate } from 'react-router-dom' // Import useNavigate
 import { signOut, onAuthStateChanged } from 'firebase/auth'
 import { auth } from './LoginFirebase' // Adjust the import path as necessary
+import { useLocation } from 'react-router-dom' // Import useLocation
 
 const pages = ['Home', 'Products']
 const settings = ['Logout']
@@ -22,6 +23,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   const [user, setUser] = React.useState(null) // Track user state
   const navigate = useNavigate() // Initialize useNavigate
+  const location = useLocation() // Get the current location
 
   React.useEffect(() => {
     // Set up the listener for authentication state changes
@@ -67,6 +69,16 @@ function ResponsiveAppBar() {
     }
   }
 
+  const handleLogoClick = () => {
+    if (location.pathname === '/home') {
+      // If already on the /home page, refresh the page
+      window.location.reload()
+    } else {
+      // Navigate to /home
+      navigate('/home')
+    }
+  }
+
   return (
     <Box>
       <AppBar
@@ -77,7 +89,7 @@ function ResponsiveAppBar() {
           <Toolbar disableGutters>
             <Box
               component="a"
-              href="#app-bar-with-responsive-menu"
+              onClick={handleLogoClick}
               sx={{
                 display: 'flex',
                 flexGrow: 1,

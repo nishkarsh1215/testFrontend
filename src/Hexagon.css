@@ -1,3 +1,12 @@
+/* Ensure the body and html elements take up the full viewport height */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* Prevent scrolling */
+}
+
+/* Center the hexagon container in the viewport */
 .hexagon-container {
   display: flex;
   justify-content: center;
@@ -6,22 +15,23 @@
   overflow: hidden; /* Ensure the SVG does not overflow and cut off */
 }
 
+/* Adjust the SVG to fit within the container */
 .hexagon-svg {
   transition: all 0.3s ease;
-  width: 100%; /* Ensure it scales with the container */
-  height: auto;
+  max-width: 100%; /* Ensure it scales with the container */
+  max-height: 100%; /* Ensure it scales with the container */
 }
 
+/* Optional: Responsive adjustments for larger screens */
 @media (min-width: 1024px) {
-  /* For screens larger than 1024px (e.g., laptops) */
   .hexagon-svg {
-    width: 30%; /* Further reduced width for laptops */
+    width: 30%; /* Adjust as needed */
     height: auto;
   }
 }
 
+/* Optional: Responsive adjustments for smaller screens */
 @media (max-width: 1024px) {
-  /* For screens smaller than or equal to 1024px (e.g., tablets and phones) */
   .hexagon-svg {
     width: 100%;
     height: auto;

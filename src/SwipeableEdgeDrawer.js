@@ -9,7 +9,6 @@ import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 import Typography from '@mui/material/Typography'
 import SwipeableDrawer from '@mui/material/SwipeableDrawer'
-import FavoriteIcon from '@mui/icons-material/Favorite' // Import heart icon
 
 const drawerBleeding = 56
 
@@ -26,8 +25,9 @@ const StyledBox = styled('div')(({ theme }) => ({
   minHeight: '56px', // Set minimum height to avoid collapsing
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center', // Center horizontally
+  justifyContent: 'space-between', // Space between items
   textAlign: 'center', // Center the text content
+  px: 2, // Add padding for better spacing
 }))
 
 const Puller = styled('div')(({ theme }) => ({
@@ -67,7 +67,7 @@ function SwipeableEdgeDrawer(props) {
   }
 
   return (
-    <Root onClick={OpenTheFooter}>
+    <Root>
       <Global
         styles={{
           '.MuiDrawer-root > .MuiPaper-root': {
@@ -80,11 +80,11 @@ function SwipeableEdgeDrawer(props) {
       <SwipeableDrawer
         container={container}
         anchor="bottom"
-        open={open}
-        onClose={() => setOpen(false)}
-        onOpen={() => setOpen(true)}
-        swipeAreaWidth={drawerBleeding} // Adjust this value for touch-enabled devices
-        disableSwipeToOpen={false}
+        // open={open}
+        // onClose={() => setOpen(false)}
+        // onOpen={() => setOpen(true)}
+        // swipeAreaWidth={drawerBleeding} // Adjust this value for touch-enabled devices
+        disableSwipeToOpen={true}
         ModalProps={{
           keepMounted: true,
         }}
@@ -98,11 +98,16 @@ function SwipeableEdgeDrawer(props) {
             visibility: 'visible',
             right: 0,
             left: 0,
+            px: 2,
           }}
         >
           <Puller onClick={handlePullerClick} /> {/* Attach onClick handler */}
-          <Typography variant="body2" color="textSecondary">
-            We are Sanctity
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ ml: 2, textAlign: 'left' }}
+          >
+            © {new Date().getFullYear()} Sanctity. All rights reserved.
           </Typography>
         </StyledBox>
         <StyledBox
