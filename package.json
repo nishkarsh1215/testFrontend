@@ -1,5 +1,4 @@
 {
-  "homepage": "https://sanctity.ai/",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
@@ -15,11 +14,17 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.7.3",
     "firebase": "^10.12.3",
     "gsap": "^3.12.5",
+    "quill-blot-formatter": "^1.0.5",
+    "quill-image-resize-module": "^3.0.0",
+    "quill-image-resize-module-react": "^3.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-ga4": "^2.1.0",
     "react-ios-switch": "^0.1.19",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.24.0",
     "react-scripts": "5.0.1",
     "react-scroll-wheel-handler": "^2.2.0",
@@ -58,5 +63,6 @@
   },
   "devDependencies": {
     "gh-pages": "^6.1.1"
-  }
+  },
+  "proxy": "http://sanctity.ap-south-1.elasticbeanstalk.com"
 }

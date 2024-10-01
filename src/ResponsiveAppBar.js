@@ -10,28 +10,27 @@ import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
-import { useNavigate } from 'react-router-dom' // Import useNavigate
+import { useNavigate } from 'react-router-dom'
 import { signOut, onAuthStateChanged } from 'firebase/auth'
-import { auth } from './LoginFirebase' // Adjust the import path as necessary
-import { useLocation } from 'react-router-dom' // Import useLocation
+import { auth } from './LoginFirebase'
+import { useLocation } from 'react-router-dom'
 
-const pages = ['Home', 'Products']
+// const pages = ['Home', 'Products', 'Blogs'] // Added 'Blogs'
+const pages = ['Home', 'Products'] // Added 'Blogs'
 const settings = ['Logout']
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
-  const [user, setUser] = React.useState(null) // Track user state
-  const navigate = useNavigate() // Initialize useNavigate
-  const location = useLocation() // Get the current location
+  const [user, setUser] = React.useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   React.useEffect(() => {
-    // Set up the listener for authentication state changes
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser)
     })
 
-    // Clean up the subscription
     return () => unsubscribe()
   }, [])
 
@@ -56,14 +55,18 @@ function ResponsiveAppBar() {
       navigate('/home')
     } else if (page === 'Products') {
       navigate('/product')
+    } else if (page === 'Blogs') {
+      navigate('/blogs')
+    } else if (page === 'CreateBlog') {
+      navigate('/blog')
     }
-    handleCloseNavMenu() // Close the menu after navigation
+    handleCloseNavMenu()
   }
 
   const handleLogout = async () => {
     try {
       await signOut(auth)
-      navigate('/home') // Redirect to /hexagon after logout
+      navigate('/home')
     } catch (error) {
       console.error('Error logging out:', error)
     }
@@ -71,13 +74,16 @@ function ResponsiveAppBar() {
 
   const handleLogoClick = () => {
     if (location.pathname === '/home') {
-      // If already on the /home page, refresh the page
       window.location.reload()
     } else {
-      // Navigate to /home
       navigate('/home')
     }
   }
+
+  // Determine if "CreateBlog" should be shown
+  const showCreateBlog =
+    user?.email === 'nishkarsh1512@gmail.com' ||
+    user?.email === 'sanctity.ai.fs@gmail.com'
 
   return (
     <Box>
@@ -139,9 +145,19 @@ function ResponsiveAppBar() {
                   </Typography>
                 </MenuItem>
               ))}
+              {showCreateBlog && ( // Conditionally render "CreateBlog"
+                <MenuItem
+                  key="CreateBlog"
+                  onClick={() => handleNavigation('CreateBlog')}
+                >
+                  {/* <Typography textAlign="center" color="inherit">
+                    CreateBlog
+                  </Typography> */}
+                </MenuItem>
+              )}
             </Menu>
 
-            {user && ( // Render profile icon and menu only if user is logged in
+            {user && (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

@@ -1,0 +1,94 @@
+/* Full viewport height container */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent horizontal overflow */
+}
+
+/* Navbar Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px; /* Adjust based on your navbar height */
+  background-color: #333;
+  color: #fff; /* Example text color for navbar */
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 1000; /* Ensure it stays above content */
+}
+
+/* Footer Styles */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px; /* Adjust based on your footer height */
+  background-color: #333;
+  color: #fff; /* Text color for footer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  z-index: 1000; /* Ensure it stays above content */
+}
+
+/* Content Area Styles */
+.blog-content {
+  margin-top: 60px; /* Space for the navbar */
+  margin-bottom: 60px; /* Space for the footer */
+  padding: 16px; /* Optional padding */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  font-family: 'Black Ops One', sans-serif; /* Apply the font */
+  color: black; /* Text color */
+  height: calc(
+    100vh - 120px
+  ); /* Adjust height to fit within viewport minus navbar and footer */
+  width: 100%; /* Full width */
+}
+
+/* Heading Styles */
+.blog-content h1,
+.blog-content h2,
+.blog-content h3,
+.blog-content h4,
+.blog-content h5,
+.blog-content h6 {
+  color: black; /* Ensure headings are black */
+  font-family: 'Black Ops One', sans-serif; /* Apply the font */
+}
+
+/* Image Styles */
+.blog-content img {
+  max-width: 100%; /* Ensure images don’t overflow */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove extra space below images */
+  margin: 0 auto; /* Center images */
+}
+
+/* Style for centering loading text */
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 120px); /* Full height minus navbar and footer */
+  width: 100%;
+  font-family: 'Black Ops One', sans-serif; /* Apply the font */
+  color: black; /* Text color */
+  font-size: 24px; /* Adjust font size as needed */
+}
+
+@media (max-width: 768px) {
+  .blog-content img {
+    max-width: 80%; /* Adjust the width for mobile devices */
+  }
+
+  .loading-container {
+    font-size: 18px; /* Adjust font size for mobile devices */
+  }
+}

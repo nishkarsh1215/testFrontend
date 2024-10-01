@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { useNavigate } from 'react-router-dom'
 import './Hexagon.css'
+import ReactGA from 'react-ga4'
 
 const Hexagon = () => {
   const svgRef = useRef(null)
@@ -59,6 +60,11 @@ const Hexagon = () => {
   }
 
   const ImageToHome = () => {
+    ReactGA.event({
+      category: 'I AM HUMAN BUTTON',
+      action: 'Clicked on I AM HUMAN',
+      label: 'MAIN PAGE',
+    })
     navigate('/home')
   }
 

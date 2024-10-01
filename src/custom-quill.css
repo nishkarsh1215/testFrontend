@@ -1,0 +1,91 @@
+/* Ensure the body takes full viewport height and avoids overlap with header/footer */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Prevent body scroll */
+}
+
+.header,
+.footer {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  z-index: 1000; /* Make sure it's on top of other content */
+  background-color: #fff; /* Adjust as needed */
+}
+
+/* Header Styles */
+.header {
+  top: 0;
+  height: 60px; /* Adjust height as needed */
+  line-height: 60px; /* Center text vertically */
+  border-bottom: 1px solid #ddd; /* Optional border */
+}
+
+/* Footer Styles */
+.footer {
+  bottom: 0;
+  height: 50px; /* Adjust height as needed */
+  line-height: 50px; /* Center text vertically */
+  border-top: 1px solid #ddd; /* Optional border */
+}
+
+/* Content container adjustment */
+.quilbot-container {
+  margin-top: 60px; /* Match header height */
+  margin-bottom: 50px; /* Match footer height */
+  max-height: calc(
+    100vh - 110px
+  ); /* Total viewport height minus header and footer */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Styling for ReactQuill editor */
+.ql-editor img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ql-editor {
+  color: black !important;
+}
+
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6 {
+  color: black !important;
+}
+
+.ql-toolbar {
+  /* Optionally style the toolbar if needed */
+}
+
+/* Save Button Styles */
+.save-button {
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  width: 100%;
+  max-width: 150px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+  background-color: #333;
+}
